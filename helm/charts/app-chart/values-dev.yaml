@@ -1,0 +1,43 @@
+# Development environment values
+environment: dev
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: Always
+  tag: "1.21-alpine"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: myapp-dev.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+config:
+  database:
+    host: "postgres-dev.local"
+    port: 5432
+    name: "myapp_dev"
+  
+  redis:
+    host: "redis-dev.local"
+    port: 6379

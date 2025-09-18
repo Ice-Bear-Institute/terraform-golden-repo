@@ -1,0 +1,14 @@
+# QA environment variables
+# Copy this file to terraform.tfvars and customize
+
+aws_region = "us-west-2"
+environment = "qa"
+project_name = "golden-repo"
+repository_name = "terraform-golden-repo"  # Change this to your repo name
+
+common_tags = {
+  Environment = "qa"
+  ManagedBy   = "terraform"
+  Project     = "golden-repo"
+  Owner       = "qa-team"
+}

@@ -1,0 +1,14 @@
+# Development environment variables
+# Copy this file to terraform.tfvars and customize
+
+aws_region = "us-west-2"
+environment = "dev"
+project_name = "golden-repo"
+repository_name = "terraform-golden-repo"  # Change this to your repo name
+
+common_tags = {
+  Environment = "dev"
+  ManagedBy   = "terraform"
+  Project     = "golden-repo"
+  Owner       = "development-team"
+}

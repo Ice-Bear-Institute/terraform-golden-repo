@@ -1,0 +1,14 @@
+# Gamma environment variables
+# Copy this file to terraform.tfvars and customize
+
+aws_region = "us-east-1"  # Different region for gamma
+environment = "gamma"
+project_name = "golden-repo"
+repository_name = "terraform-golden-repo"  # Change this to your repo name
+
+common_tags = {
+  Environment = "gamma"
+  ManagedBy   = "terraform"
+  Project     = "golden-repo"
+  Owner       = "gamma-team"
+}

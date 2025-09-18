@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Pre-commit hook to ensure backend.tf files have been customized
+# This script checks that REPO_NAME placeholder has been replaced
+
+set -e
+
+echo "Running pre-commit hook: Checking backend.tf customization..."
+
+# Find all backend.tf files
+backend_files=$(find terraform/ -name "backend.tf" 2>/dev/null || true)
+
+if [ -z "$backend_files" ]; then
+    echo "✓ No backend.tf files found to check"
+    exit 0
+fi
+
+# Check each backend.tf file for the placeholder
+uncustomized_files=()
+for file in $backend_files; do
+    if grep -q "REPO_NAME" "$file"; then
+        uncustomized_files+=("$file")
+    fi
+done
+
+if [ ${#uncustomized_files[@]} -ne 0 ]; then
+    echo "❌ ERROR: The following backend.tf files contain uncustomized REPO_NAME placeholder:"
+    for file in "${uncustomized_files[@]}"; do
+        echo "  - $file"
+    done
+    echo ""
+    echo "Please replace 'REPO_NAME' with your actual repository name in the backend configuration."
+    echo "Example:"
+    echo "  bucket = \"terraform-state-my-project\""
+    echo "  dynamodb_table = \"terraform-locks-my-project\""
+    echo ""
+    echo "This ensures that each deployment uses a unique S3 bucket and DynamoDB table."
+    exit 1
+fi
+
+echo "✓ All backend.tf files have been customized"
+exit 0
